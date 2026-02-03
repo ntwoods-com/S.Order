@@ -32,11 +32,15 @@ export function AuthProvider({ children }) {
   }, [refresh, token]);
 
   const login = React.useCallback(async (username, password) => {
+    console.log("[AUTH DEBUG] login() called with username:", username);
     const res = await api.login(username, password);
+    console.log("[AUTH DEBUG] API response:", res);
     const t = res?.data?.token;
+    console.log("[AUTH DEBUG] Token from response:", t ? "Token exists" : "NO TOKEN!");
     if (!t) throw new Error("Token missing in response");
     setToken(t);
     setUser({ username: res?.data?.username, is_admin: !!res?.data?.is_admin });
+    console.log("[AUTH DEBUG] Login complete, user set");
   }, []);
 
   const logout = React.useCallback(() => {

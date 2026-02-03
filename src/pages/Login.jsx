@@ -17,14 +17,20 @@ export default function Login() {
 
   async function onSubmit(e) {
     e.preventDefault();
+    console.log("[DEBUG] Login attempt started for user:", username.trim());
     setError("");
     setBusy(true);
     try {
-      await login(username.trim(), password);
+      console.log("[DEBUG] Calling login API...");
+      const result = await login(username.trim(), password);
+      console.log("[DEBUG] Login successful, result:", result);
+      console.log("[DEBUG] Navigating to dashboard...");
       navigate("/dashboard", { replace: true });
     } catch (err) {
+      console.error("[DEBUG] Login error:", err);
       setError(err?.message || "Login failed");
     } finally {
+      console.log("[DEBUG] Login attempt finished, setting busy=false");
       setBusy(false);
     }
   }
